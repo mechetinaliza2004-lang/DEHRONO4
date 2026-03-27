@@ -28,7 +28,7 @@
     top: 218px;
     left: 50%;
     transform: translateX(-50%);
-    width: 500px;
+    width: 600px;
     height: 2px;
     background: #000000;
     z-index: 20;
@@ -36,23 +36,12 @@
 
 .canvas-container {
     position: absolute;
-    top: 298px;
+    top: 240px;
     left: 0;
     width: 100%;
-    height: calc(100% - 298px);
+    height: calc(100% - 240px);
     min-height: 400px;
     z-index: 10;
-}
-
-.noise-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: repeating-radial-gradient(circle at 20% 30%, rgba(0, 0, 0, 0.03) 0px, rgba(0, 0, 0, 0.03) 1px, transparent 1px, transparent 3px);
-    pointer-events: none;
-    z-index: 15;
 }
 
 @media screen and (max-width: 1680px) {
@@ -63,11 +52,11 @@
 
     .black-strip {
         top: 200px;
-        width: 480px;
+        width: 560px;
     }
 
     .canvas-container {
-        top: 280px;
+        top: 222px;
     }
 }
 
@@ -79,11 +68,11 @@
 
     .black-strip {
         top: 184px;
-        width: 450px;
+        width: 520px;
     }
 
     .canvas-container {
-        top: 264px;
+        top: 206px;
     }
 }
 
@@ -95,11 +84,11 @@
 
     .black-strip {
         top: 175px;
-        width: 420px;
+        width: 500px;
     }
 
     .canvas-container {
-        top: 255px;
+        top: 197px;
     }
 }
 
@@ -111,11 +100,11 @@
 
     .black-strip {
         top: 164px;
-        width: 400px;
+        width: 480px;
     }
 
     .canvas-container {
-        top: 244px;
+        top: 186px;
     }
 }
 
@@ -127,11 +116,11 @@
 
     .black-strip {
         top: 143px;
-        width: 360px;
+        width: 420px;
     }
 
     .canvas-container {
-        top: 223px;
+        top: 165px;
     }
 }
 
@@ -144,12 +133,12 @@
 
     .black-strip {
         top: 108px;
-        width: 260px;
+        width: 300px;
     }
 
     .canvas-container {
-        top: 168px;
-        height: calc(100% - 168px);
+        top: 130px;
+        height: calc(100% - 130px);
     }
 }
 
@@ -161,12 +150,12 @@
 
     .black-strip {
         top: 81px;
-        width: 200px;
+        width: 240px;
     }
 
     .canvas-container {
-        top: 121px;
-        height: calc(100% - 121px);
+        top: 103px;
+        height: calc(100% - 103px);
     }
 }
 
@@ -178,11 +167,11 @@
 
     .black-strip {
         top: 102px;
-        width: 280px;
+        width: 320px;
     }
 
     .canvas-container {
-        top: 162px;
-        height: calc(100% - 162px);
+        top: 124px;
+        height: calc(100% - 124px);
     }
 }
