@@ -1,33 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ДЕХРОНО</title>
-    <link rel="stylesheet" href="stylesheet/font.css">
-    <link rel="stylesheet" href="stylesheet/layout.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>ДЕХРОНО | Интерактивный плакат</title>
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/fonts.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
+    <main class="poster">
+        <h1 class="main-title">ДЕХРОНО</h1>
+        <div class="black-strip"></div>
+        <div id="canvas-container" class="canvas-container"></div>
+        <div class="tech-info">A4 - 128</div>
+        <div class="noise-overlay"></div>
+    </main>
 
-    <div class="poster-container">
-        <section class="section-one">
-            <header class="header">
-                <h1 class="main-title">ДЕХРОНО</h1>
-                <div class="line"></div>
-            </header>
-            <div id="container-3d"></div>
-        </section>
-
-        <section class="section-two" id="block-2">
-        </section>
-    </div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/FBXLoader.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/libs/fflate.min.js"></script>
-    <script src="javascript/script.js"></script>
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="js/script.js"></script>
 </body>
 
 </html>
