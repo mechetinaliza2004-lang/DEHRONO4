@@ -9,7 +9,8 @@
 .main-title {
     position: absolute;
     top: 92px;
-    left: 314px;
+    left: 50%;
+    transform: translateX(-50%);
     font-family: 'Ultramono Wide', monospace;
     font-weight: 900;
     font-size: 96px;
@@ -25,8 +26,9 @@
 .black-strip {
     position: absolute;
     top: 218px;
-    left: 314px;
-    width: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 500px;
     height: 2px;
     background: #000000;
     z-index: 20;
@@ -42,18 +44,6 @@
     z-index: 10;
 }
 
-.tech-info {
-    position: absolute;
-    bottom: 40px;
-    right: 40px;
-    font-family: 'Durik', monospace;
-    font-size: 14px;
-    color: #4a4a4a;
-    letter-spacing: 0.05em;
-    z-index: 20;
-    opacity: 0.7;
-}
-
 .noise-overlay {
     position: absolute;
     top: 0;
@@ -67,14 +57,13 @@
 
 @media screen and (max-width: 1680px) {
     .main-title {
-        left: 280px;
-        top: 80px;
         font-size: 90px;
+        top: 80px;
     }
 
     .black-strip {
         top: 200px;
-        left: 280px;
+        width: 480px;
     }
 
     .canvas-container {
@@ -84,15 +73,13 @@
 
 @media screen and (max-width: 1440px) {
     .main-title {
-        left: 240px;
-        top: 70px;
         font-size: 84px;
+        top: 70px;
     }
 
     .black-strip {
         top: 184px;
-        left: 240px;
-        width: 180px;
+        width: 450px;
     }
 
     .canvas-container {
@@ -102,15 +89,13 @@
 
 @media screen and (max-width: 1366px) {
     .main-title {
-        left: 220px;
-        top: 65px;
         font-size: 80px;
+        top: 65px;
     }
 
     .black-strip {
         top: 175px;
-        left: 220px;
-        width: 170px;
+        width: 420px;
     }
 
     .canvas-container {
@@ -120,15 +105,13 @@
 
 @media screen and (max-width: 1280px) {
     .main-title {
-        left: 200px;
-        top: 60px;
         font-size: 76px;
+        top: 60px;
     }
 
     .black-strip {
         top: 164px;
-        left: 200px;
-        width: 160px;
+        width: 400px;
     }
 
     .canvas-container {
@@ -138,15 +121,13 @@
 
 @media screen and (max-width: 1024px) {
     .main-title {
-        left: 150px;
-        top: 50px;
         font-size: 68px;
+        top: 50px;
     }
 
     .black-strip {
         top: 143px;
-        left: 150px;
-        width: 140px;
+        width: 360px;
     }
 
     .canvas-container {
@@ -156,52 +137,36 @@
 
 @media screen and (max-width: 768px) {
     .main-title {
-        left: 40px;
-        top: 40px;
         font-size: 48px;
-        white-space: normal;
+        top: 40px;
+        white-space: nowrap;
     }
 
     .black-strip {
         top: 108px;
-        left: 40px;
-        width: 100px;
+        width: 260px;
     }
 
     .canvas-container {
         top: 168px;
         height: calc(100% - 168px);
     }
-
-    .tech-info {
-        bottom: 20px;
-        right: 20px;
-        font-size: 12px;
-    }
 }
 
 @media screen and (max-width: 475px) {
     .main-title {
-        left: 20px;
-        top: 30px;
         font-size: 36px;
+        top: 30px;
     }
 
     .black-strip {
         top: 81px;
-        left: 20px;
-        width: 80px;
+        width: 200px;
     }
 
     .canvas-container {
         top: 121px;
         height: calc(100% - 121px);
-    }
-
-    .tech-info {
-        bottom: 15px;
-        right: 15px;
-        font-size: 10px;
     }
 }
 
@@ -209,12 +174,11 @@
     .main-title {
         font-size: 52px;
         top: 30px;
-        left: 40px;
     }
 
     .black-strip {
         top: 102px;
-        left: 40px;
+        width: 280px;
     }
 
     .canvas-container {
