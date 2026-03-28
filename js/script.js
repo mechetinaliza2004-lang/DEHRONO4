@@ -374,7 +374,6 @@ function initBlock3() {
 
     if (!lensCanvas || !container) return;
 
-    let isDragging = false;
     let lensX = 0, lensY = 0;
 
     const ctx = lensCanvas.getContext('2d');
@@ -461,22 +460,6 @@ function initBlock3() {
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
-        for (let i = 0; i < 12; i++) {
-            const angle = (Date.now() / 800 + i) * 0.6;
-            const r1 = radius - 18;
-            const r2 = radius - 5;
-            const x1 = x + Math.cos(angle) * r1;
-            const y1 = y + Math.sin(angle) * r1;
-            const x2 = x + Math.cos(angle + 0.4) * r2;
-            const y2 = y + Math.sin(angle + 0.4) * r2;
-            ctx.beginPath();
-            ctx.moveTo(x1, y1);
-            ctx.lineTo(x2, y2);
-            ctx.strokeStyle = 'rgba(255,215,0,0.3)';
-            ctx.lineWidth = 1.2;
-            ctx.stroke();
-        }
-
         const gradient = ctx.createRadialGradient(x - 25, y - 25, 10, x, y, radius);
         gradient.addColorStop(0, 'rgba(255,255,255,0.5)');
         gradient.addColorStop(0.4, 'rgba(220,220,220,0.25)');
@@ -513,33 +496,22 @@ function initBlock3() {
         drawLens();
     }
 
-    function onMouseDown(e) {
-        isDragging = true;
-        const rect = container.getBoundingClientRect();
-        lensX = e.clientX - rect.left;
-        lensY = e.clientY - rect.top;
-        lensCanvas.style.cursor = 'grabbing';
-        drawLens();
-    }
-
-    function onMouseUp() {
-        isDragging = false;
-        lensCanvas.style.cursor = 'grab';
-    }
+    lensCanvas.addEventListener('mousemove', onMouseMove);
 
     window.addEventListener('resize', () => {
         resizeCanvas();
         setTimeout(createTextCanvas, 50);
     });
 
-    lensCanvas.addEventListener('mousemove', onMouseMove);
-    lensCanvas.addEventListener('mousedown', onMouseDown);
-    window.addEventListener('mouseup', onMouseUp);
-
-    lensCanvas.style.cursor = 'grab';
-
     setTimeout(() => {
         resizeCanvas();
         createTextCanvas();
         lensX = lensCanvas.width / 2;
-        lensY
+        lensY = lensCanvas.height / 2;
+        animateLens();
+    }, 100);
+}
+
+initBlock1();
+initBlock2();
+initBlock3();
