@@ -12,11 +12,22 @@
 </head>
 
 <body>
-    <main class="poster">
+    <div class="nav-buttons">
+        <button class="nav-btn active" data-screen="block1">БЛОК 1</button>
+        <button class="nav-btn" data-screen="block2">БЛОК 2</button>
+    </div>
+
+    <div id="block1" class="screen block1 active">
         <h1 class="main-title">ДЕХРОНО</h1>
         <div class="black-strip"></div>
         <div id="canvas-container" class="canvas-container"></div>
-    </main>
+    </div>
+
+    <div id="block2" class="screen block2">
+        <img class="bg-layer" src="images/haos1.svg" alt="фон">
+        <div id="draggableLayer" class="draggable-layer"></div>
+        <button id="resetPuzzleBtn" class="reset-puzzle-btn">⟳ СБРОСИТЬ</button>
+    </div>
 
     <script type="importmap">
         {
