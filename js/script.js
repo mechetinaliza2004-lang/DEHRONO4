@@ -269,14 +269,12 @@ function snapToTarget(item, targetX, targetY) {
     checkAllSnapped();
 }
 
-function rotateAllItems() {
-    puzzleItems.forEach(item => {
-        let currentRotate = item.rotation || 0;
-        currentRotate += 15;
-        if (currentRotate >= 360) currentRotate -= 360;
-        item.rotation = currentRotate;
-        item.element.style.transform = `rotate(${currentRotate}deg)`;
-    });
+function rotateItem(item) {
+    let currentRotate = item.rotation || 0;
+    currentRotate += 15;
+    if (currentRotate >= 360) currentRotate -= 360;
+    item.rotation = currentRotate;
+    item.element.style.transform = `rotate(${currentRotate}deg)`;
 }
 
 function createDraggableElement(config) {
@@ -295,7 +293,8 @@ function createDraggableElement(config) {
     div.style.top = startPos.y + 'px';
     div.style.width = `${config.width}px`;
     div.style.height = `${config.height}px`;
-    return {
+
+    const item = {
         element: div,
         id: config.id,
         width: config.width,
@@ -307,6 +306,15 @@ function createDraggableElement(config) {
         targetY: config.targetY,
         rotation: 0
     };
+
+    div.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (!item.snapped) {
+            rotateItem(item);
+        }
+    });
+
+    return item;
 }
 
 function initBlock2() {
@@ -320,6 +328,7 @@ function initBlock2() {
         puzzleItems.push(item);
 
         item.element.addEventListener('mousedown', (e) => {
+            if (e.button !== 0) return;
             e.preventDefault();
             if (item.snapped) return;
             draggedPuzzleItem = item;
@@ -357,30 +366,6 @@ function initBlock2() {
         item.element.classList.remove('dragging');
         draggedPuzzleItem = null;
     });
-
-    const resetBtn = document.getElementById('resetPuzzleBtn');
-    if (resetBtn) {
-        resetBtn.onclick = () => {
-            puzzleItems.forEach(item => {
-                const newPos = getRandomPosition(item.width, item.height);
-                item.element.style.left = newPos.x + 'px';
-                item.element.style.top = newPos.y + 'px';
-                item.currentX = newPos.x;
-                item.currentY = newPos.y;
-                item.snapped = false;
-                item.rotation = 0;
-                item.element.style.transform = 'rotate(0deg)';
-            });
-            snappedCount = 0;
-        };
-    }
-
-    const rotateBtn = document.getElementById('rotateAllBtn');
-    if (rotateBtn) {
-        rotateBtn.onclick = () => {
-            rotateAllItems();
-        };
-    }
 }
 
 initBlock1();
