@@ -55,9 +55,10 @@ body {
 .block2 {
     position: relative;
     width: 100%;
-    min-height: 120vh;
+    min-height: 100vh;
     background: #D8D8D8;
     overflow: visible;
+    margin-bottom: 0;
 }
 
 .bg-layer {
@@ -75,8 +76,9 @@ body {
 .draggable-layer {
     position: relative;
     width: 100%;
-    min-height: 120vh;
+    min-height: 100vh;
     z-index: 10;
+    padding-bottom: 20px;
 }
 
 .draggable-item {
@@ -102,13 +104,12 @@ body {
 .block3 {
     position: relative;
     width: 100%;
-    min-height: 100vh;
     background: #D8D8D8;
-    overflow: hidden;
+    overflow: visible;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 60px 40px;
+    padding: 40px 40px 60px 40px;
 }
 
 .fibonacci-text {
@@ -245,11 +246,12 @@ body {
     }
 
     .block2 {
-        min-height: 100vh;
+        min-height: auto;
     }
 
     .draggable-layer {
-        min-height: 100vh;
+        min-height: auto;
+        padding-bottom: 20px;
     }
 
     .fibonacci-text {
@@ -259,7 +261,7 @@ body {
     }
 
     .block3 {
-        padding: 40px 20px;
+        padding: 30px 20px 40px 20px;
     }
 }
 
