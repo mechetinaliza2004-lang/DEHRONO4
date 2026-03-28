@@ -115,21 +115,26 @@ body {
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
+    background: rgba(216, 216, 216, 0.85);
+    border-radius: 24px;
+    padding: 50px 40px;
     pointer-events: none;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(2px);
 }
 
 .fibonacci-text {
     font-family: 'Durik', monospace;
     font-size: 28px;
-    line-height: 1.4;
+    line-height: 1.6;
     color: #2c2c2c;
-    text-align: left;
+    text-align: center;
     white-space: pre-wrap;
     word-break: break-word;
-    filter: blur(0px);
-    transition: filter 0.1s ease;
+    display: block;
+    width: 100%;
 }
 
 .lens-canvas {
@@ -229,6 +234,11 @@ body {
     .fibonacci-text {
         font-size: 22px;
     }
+
+    .fibonacci-container {
+        padding: 40px 30px;
+        max-width: 800px;
+    }
 }
 
 @media screen and (max-width: 768px) {
@@ -258,6 +268,12 @@ body {
 
     .fibonacci-text {
         font-size: 18px;
+        line-height: 1.5;
+    }
+
+    .fibonacci-container {
+        padding: 30px 20px;
+        max-width: 95%;
     }
 
     .block3 {
@@ -283,5 +299,10 @@ body {
 
     .fibonacci-text {
         font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .fibonacci-container {
+        padding: 25px 15px;
     }
 }
