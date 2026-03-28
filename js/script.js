@@ -13,7 +13,7 @@ function initBlock1() {
     scene.background = new THREE.Color(0xD8D8D8);
 
     camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(2.5, 1.5, 5);
+    camera.position.set(3.5, 1.8, 6.5);
     camera.lookAt(0, 0, 0);
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -27,8 +27,8 @@ function initBlock1() {
     controls.dampingFactor = 0.05;
     controls.enableZoom = true;
     controls.enablePan = true;
-    controls.zoomSpeed = 1.0;
-    controls.rotateSpeed = 1.2;
+    controls.zoomSpeed = 0.8;
+    controls.rotateSpeed = 0.8;
     controls.target.set(0, 0, 0);
 
     const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
@@ -71,8 +71,8 @@ function initBlock1() {
 
     const spiralPoints = [];
     const turns = 2.5;
-    const radius = 0.9;
-    const heightTotal = 1.8;
+    const radius = 0.65;
+    const heightTotal = 1.4;
     const segments = 80;
 
     for (let i = 0; i <= segments; i++) {
@@ -84,13 +84,13 @@ function initBlock1() {
         spiralPoints.push(new THREE.Vector3(x, y, z));
     }
 
-    const spiralGeometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(spiralPoints), 200, 0.08, 12, false);
+    const spiralGeometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(spiralPoints), 200, 0.06, 12, false);
     const spiralTube = new THREE.Mesh(spiralGeometry, silverMaterial);
     spiralTube.castShadow = true;
     group.add(spiralTube);
 
     const extraSpiralPoints = [];
-    const radius2 = 1.05;
+    const radius2 = 0.78;
     for (let i = 0; i <= segments; i++) {
         const t = i / segments;
         const angle = t * Math.PI * 2 * turns + 0.5;
@@ -99,22 +99,22 @@ function initBlock1() {
         const y = (t - 0.5) * heightTotal;
         extraSpiralPoints.push(new THREE.Vector3(x, y, z));
     }
-    const extraSpiralGeometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(extraSpiralPoints), 200, 0.05, 10, false);
+    const extraSpiralGeometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(extraSpiralPoints), 200, 0.04, 10, false);
     const extraSpiralTube = new THREE.Mesh(extraSpiralGeometry, darkSilverMaterial);
     extraSpiralTube.castShadow = true;
     group.add(extraSpiralTube);
 
-    const centerSphere = new THREE.Mesh(new THREE.SphereGeometry(0.35, 48, 48), brightSilverMaterial);
+    const centerSphere = new THREE.Mesh(new THREE.SphereGeometry(0.28, 48, 48), brightSilverMaterial);
     centerSphere.castShadow = true;
     group.add(centerSphere);
 
     const orbCount = 24;
     const orbs = [];
-    const orbRadius = 1.35;
+    const orbRadius = 1.05;
 
     for (let i = 0; i < orbCount; i++) {
         const orbMaterial = new THREE.MeshStandardMaterial({ color: 0xd0d0d0, metalness: 0.92, roughness: 0.18, emissive: 0x888888, emissiveIntensity: 0.1 });
-        const orb = new THREE.Mesh(new THREE.SphereGeometry(0.12, 24, 24), orbMaterial);
+        const orb = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 24), orbMaterial);
         orb.castShadow = true;
         group.add(orb);
         orbs.push({ mesh: orb, angle: (i / orbCount) * Math.PI * 2, speed: 0.008 });
@@ -122,26 +122,26 @@ function initBlock1() {
 
     const smallOrbs = [];
     const smallOrbCount = 36;
-    const smallOrbRadius = 1.55;
+    const smallOrbRadius = 1.22;
 
     for (let i = 0; i < smallOrbCount; i++) {
         const orbMaterial = new THREE.MeshStandardMaterial({ color: 0xb0b0b0, metalness: 0.88, roughness: 0.22, emissive: 0x666666, emissiveIntensity: 0.06 });
-        const orb = new THREE.Mesh(new THREE.SphereGeometry(0.07, 20, 20), orbMaterial);
+        const orb = new THREE.Mesh(new THREE.SphereGeometry(0.055, 20, 20), orbMaterial);
         orb.castShadow = true;
         group.add(orb);
-        smallOrbs.push({ mesh: orb, angle: (i / smallOrbCount) * Math.PI * 2, speed: -0.012, yOffset: Math.sin((i / smallOrbCount) * Math.PI * 2) * 0.6 });
+        smallOrbs.push({ mesh: orb, angle: (i / smallOrbCount) * Math.PI * 2, speed: -0.012, yOffset: Math.sin((i / smallOrbCount) * Math.PI * 2) * 0.5 });
     }
 
     const floatingParticles = [];
-    const particleCount = 200;
+    const particleCount = 150;
 
     for (let i = 0; i < particleCount; i++) {
-        const particleGeo = new THREE.SphereGeometry(0.025, 8, 8);
+        const particleGeo = new THREE.SphereGeometry(0.02, 8, 8);
         const particleMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.85, emissive: 0xaaaaaa, emissiveIntensity: 0.15 });
         const particle = new THREE.Mesh(particleGeo, particleMat);
-        const radiusP = 1.2 + Math.random() * 0.7;
+        const radiusP = 0.9 + Math.random() * 0.6;
         const angle = Math.random() * Math.PI * 2;
-        const yPos = (Math.random() - 0.5) * 2.2;
+        const yPos = (Math.random() - 0.5) * 1.8;
         const xPos = Math.cos(angle) * radiusP;
         const zPos = Math.sin(angle) * radiusP;
         particle.position.set(xPos, yPos, zPos);
@@ -163,7 +163,7 @@ function initBlock1() {
             orb.angle += orb.speed;
             const x = Math.cos(orb.angle) * orbRadius;
             const z = Math.sin(orb.angle) * orbRadius;
-            const y = Math.sin(orb.angle * 1.5) * 0.8;
+            const y = Math.sin(orb.angle * 1.5) * 0.65;
             orb.mesh.position.set(x, y, z);
         });
 
@@ -182,8 +182,8 @@ function initBlock1() {
             p.mesh.position.x = newX;
             p.mesh.position.z = newZ;
             p.yPos += p.ySpeed;
-            if (p.yPos > 1.2) p.yPos = -1.2;
-            if (p.yPos < -1.2) p.yPos = 1.2;
+            if (p.yPos > 1.0) p.yPos = -1.0;
+            if (p.yPos < -1.0) p.yPos = 1.0;
             p.mesh.position.y = p.yPos;
         });
 
@@ -230,8 +230,8 @@ let dragOffsetX = 0, dragOffsetY = 0;
 
 function getRandomPosition(width, height) {
     const maxX = window.innerWidth - width - 30;
-    const maxY = window.innerHeight - height - 120;
-    return { x: Math.max(20, Math.random() * Math.max(0, maxX)), y: Math.max(20, Math.random() * Math.max(0, maxY)) };
+    const maxY = window.innerHeight - height + 200;
+    return { x: Math.max(20, Math.random() * Math.max(0, maxX)), y: Math.max(20, Math.random() * Math.max(0, maxY) + 100) };
 }
 
 function showVictoryMessage() {
@@ -345,7 +345,7 @@ function initBlock2() {
         let newX = e.clientX - dragOffsetX;
         let newY = e.clientY - dragOffsetY;
         newX = Math.max(0, Math.min(window.innerWidth - draggedPuzzleItem.width, newX));
-        newY = Math.max(0, Math.min(window.innerHeight - draggedPuzzleItem.height - 80, newY));
+        newY = Math.max(0, Math.min(window.innerHeight + 200, newY));
         draggedPuzzleItem.element.style.left = newX + 'px';
         draggedPuzzleItem.element.style.top = newY + 'px';
     });
