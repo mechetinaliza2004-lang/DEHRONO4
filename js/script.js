@@ -13,7 +13,7 @@ function initBlock1() {
     scene.background = new THREE.Color(0xD8D8D8);
 
     camera = new THREE.PerspectiveCamera(45, container.clientWidth / container.clientHeight, 0.1, 1000);
-    camera.position.set(3.5, 1.8, 6.5);
+    camera.position.set(4, 2, 7);
     camera.lookAt(0, 0, 0);
 
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -71,8 +71,8 @@ function initBlock1() {
 
     const spiralPoints = [];
     const turns = 2.5;
-    const radius = 0.65;
-    const heightTotal = 1.4;
+    const radius = 0.45;
+    const heightTotal = 1.2;
     const segments = 80;
 
     for (let i = 0; i <= segments; i++) {
@@ -84,13 +84,13 @@ function initBlock1() {
         spiralPoints.push(new THREE.Vector3(x, y, z));
     }
 
-    const spiralGeometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(spiralPoints), 200, 0.06, 12, false);
+    const spiralGeometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(spiralPoints), 200, 0.05, 12, false);
     const spiralTube = new THREE.Mesh(spiralGeometry, silverMaterial);
     spiralTube.castShadow = true;
     group.add(spiralTube);
 
     const extraSpiralPoints = [];
-    const radius2 = 0.78;
+    const radius2 = 0.55;
     for (let i = 0; i <= segments; i++) {
         const t = i / segments;
         const angle = t * Math.PI * 2 * turns + 0.5;
@@ -99,49 +99,49 @@ function initBlock1() {
         const y = (t - 0.5) * heightTotal;
         extraSpiralPoints.push(new THREE.Vector3(x, y, z));
     }
-    const extraSpiralGeometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(extraSpiralPoints), 200, 0.04, 10, false);
+    const extraSpiralGeometry = new THREE.TubeGeometry(new THREE.CatmullRomCurve3(extraSpiralPoints), 200, 0.035, 10, false);
     const extraSpiralTube = new THREE.Mesh(extraSpiralGeometry, darkSilverMaterial);
     extraSpiralTube.castShadow = true;
     group.add(extraSpiralTube);
 
-    const centerSphere = new THREE.Mesh(new THREE.SphereGeometry(0.28, 48, 48), brightSilverMaterial);
+    const centerSphere = new THREE.Mesh(new THREE.SphereGeometry(0.22, 48, 48), brightSilverMaterial);
     centerSphere.castShadow = true;
     group.add(centerSphere);
 
-    const orbCount = 24;
+    const orbCount = 20;
     const orbs = [];
-    const orbRadius = 1.05;
+    const orbRadius = 0.82;
 
     for (let i = 0; i < orbCount; i++) {
         const orbMaterial = new THREE.MeshStandardMaterial({ color: 0xd0d0d0, metalness: 0.92, roughness: 0.18, emissive: 0x888888, emissiveIntensity: 0.1 });
-        const orb = new THREE.Mesh(new THREE.SphereGeometry(0.09, 24, 24), orbMaterial);
+        const orb = new THREE.Mesh(new THREE.SphereGeometry(0.07, 24, 24), orbMaterial);
         orb.castShadow = true;
         group.add(orb);
         orbs.push({ mesh: orb, angle: (i / orbCount) * Math.PI * 2, speed: 0.008 });
     }
 
     const smallOrbs = [];
-    const smallOrbCount = 36;
-    const smallOrbRadius = 1.22;
+    const smallOrbCount = 30;
+    const smallOrbRadius = 0.95;
 
     for (let i = 0; i < smallOrbCount; i++) {
         const orbMaterial = new THREE.MeshStandardMaterial({ color: 0xb0b0b0, metalness: 0.88, roughness: 0.22, emissive: 0x666666, emissiveIntensity: 0.06 });
-        const orb = new THREE.Mesh(new THREE.SphereGeometry(0.055, 20, 20), orbMaterial);
+        const orb = new THREE.Mesh(new THREE.SphereGeometry(0.045, 20, 20), orbMaterial);
         orb.castShadow = true;
         group.add(orb);
-        smallOrbs.push({ mesh: orb, angle: (i / smallOrbCount) * Math.PI * 2, speed: -0.012, yOffset: Math.sin((i / smallOrbCount) * Math.PI * 2) * 0.5 });
+        smallOrbs.push({ mesh: orb, angle: (i / smallOrbCount) * Math.PI * 2, speed: -0.012, yOffset: Math.sin((i / smallOrbCount) * Math.PI * 2) * 0.45 });
     }
 
     const floatingParticles = [];
-    const particleCount = 150;
+    const particleCount = 120;
 
     for (let i = 0; i < particleCount; i++) {
-        const particleGeo = new THREE.SphereGeometry(0.02, 8, 8);
+        const particleGeo = new THREE.SphereGeometry(0.015, 8, 8);
         const particleMat = new THREE.MeshStandardMaterial({ color: 0xcccccc, metalness: 0.85, emissive: 0xaaaaaa, emissiveIntensity: 0.15 });
         const particle = new THREE.Mesh(particleGeo, particleMat);
-        const radiusP = 0.9 + Math.random() * 0.6;
+        const radiusP = 0.7 + Math.random() * 0.5;
         const angle = Math.random() * Math.PI * 2;
-        const yPos = (Math.random() - 0.5) * 1.8;
+        const yPos = (Math.random() - 0.5) * 1.5;
         const xPos = Math.cos(angle) * radiusP;
         const zPos = Math.sin(angle) * radiusP;
         particle.position.set(xPos, yPos, zPos);
@@ -163,7 +163,7 @@ function initBlock1() {
             orb.angle += orb.speed;
             const x = Math.cos(orb.angle) * orbRadius;
             const z = Math.sin(orb.angle) * orbRadius;
-            const y = Math.sin(orb.angle * 1.5) * 0.65;
+            const y = Math.sin(orb.angle * 1.5) * 0.5;
             orb.mesh.position.set(x, y, z);
         });
 
@@ -182,8 +182,8 @@ function initBlock1() {
             p.mesh.position.x = newX;
             p.mesh.position.z = newZ;
             p.yPos += p.ySpeed;
-            if (p.yPos > 1.0) p.yPos = -1.0;
-            if (p.yPos < -1.0) p.yPos = 1.0;
+            if (p.yPos > 0.9) p.yPos = -0.9;
+            if (p.yPos < -0.9) p.yPos = 0.9;
             p.mesh.position.y = p.yPos;
         });
 
