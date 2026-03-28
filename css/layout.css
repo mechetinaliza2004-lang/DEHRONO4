@@ -1,4 +1,10 @@
-.poster {
+body {
+    background: #D8D8D8;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.block1 {
     position: relative;
     width: 100%;
     height: 100vh;
@@ -44,61 +50,12 @@
     z-index: 10;
 }
 
-.screen {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.5s ease, visibility 0.5s ease;
-    overflow: hidden;
-}
-
-.screen.active {
-    opacity: 1;
-    visibility: visible;
-}
-
-.nav-buttons {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    display: flex;
-    gap: 20px;
-    background: rgba(0, 0, 0, 0.6);
-    padding: 12px 24px;
-    border-radius: 50px;
-    backdrop-filter: blur(10px);
-}
-
-.nav-btn {
-    padding: 10px 24px;
-    background: #680000;
-    color: white;
-    border: none;
-    font-family: 'Ultramono Wide', monospace;
-    font-size: 14px;
-    cursor: pointer;
-    border-radius: 8px;
-    transition: all 0.2s;
-}
-
-.nav-btn:hover {
-    transform: scale(1.05);
-    background: #8a0000;
-}
-
-.nav-btn.active {
-    background: #aa0000;
-    box-shadow: 0 0 10px rgba(170, 0, 0, 0.5);
-}
-
 .block2 {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
     background: #D8D8D8;
+    overflow: hidden;
 }
 
 .bg-layer {
@@ -113,11 +70,9 @@
 }
 
 .draggable-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
+    position: relative;
     width: 100%;
-    height: 100%;
+    min-height: 100vh;
     z-index: 10;
 }
 
@@ -125,6 +80,7 @@
     position: absolute;
     cursor: grab;
     z-index: 100;
+    transition: transform 0.1s ease;
 }
 
 .draggable-item:active {
@@ -136,11 +92,17 @@
     z-index: 1000;
 }
 
-.reset-puzzle-btn {
+.puzzle-controls {
     position: fixed;
-    bottom: 120px;
+    bottom: 30px;
     right: 30px;
     z-index: 1000;
+    display: flex;
+    gap: 15px;
+}
+
+.reset-btn,
+.rotate-btn {
     padding: 12px 24px;
     background: #680000;
     color: white;
@@ -149,12 +111,39 @@
     font-size: 14px;
     cursor: pointer;
     border-radius: 8px;
-    transition: transform 0.2s;
+    transition: all 0.2s;
 }
 
-.reset-puzzle-btn:hover {
+.rotate-btn {
+    background: #2c3e66;
+}
+
+.reset-btn:hover,
+.rotate-btn:hover {
     transform: scale(1.05);
+}
+
+.reset-btn:hover {
     background: #8a0000;
+}
+
+.rotate-btn:hover {
+    background: #3e5a8a;
+}
+
+.instruction {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-family: monospace;
+    font-size: 12px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    backdrop-filter: blur(5px);
+    pointer-events: none;
 }
 
 @media screen and (max-width: 1680px) {
@@ -254,22 +243,22 @@
         height: calc(100% - 130px);
     }
 
-    .reset-puzzle-btn {
-        bottom: 100px;
-        right: 20px;
-        padding: 8px 16px;
-        font-size: 12px;
-    }
-
-    .nav-btn {
-        padding: 6px 16px;
-        font-size: 12px;
-    }
-
-    .nav-buttons {
-        gap: 12px;
-        padding: 8px 16px;
+    .puzzle-controls {
         bottom: 20px;
+        right: 20px;
+        gap: 10px;
+    }
+
+    .reset-btn,
+    .rotate-btn {
+        padding: 8px 16px;
+        font-size: 10px;
+    }
+
+    .instruction {
+        bottom: 20px;
+        left: 20px;
+        font-size: 9px;
     }
 }
 
@@ -287,22 +276,5 @@
     .canvas-container {
         top: 103px;
         height: calc(100% - 103px);
-    }
-}
-
-@media screen and (orientation: landscape) and (max-height: 768px) {
-    .main-title {
-        font-size: 52px;
-        top: 30px;
-    }
-
-    .black-strip {
-        top: 102px;
-        width: 320px;
-    }
-
-    .canvas-container {
-        top: 124px;
-        height: calc(100% - 124px);
     }
 }
