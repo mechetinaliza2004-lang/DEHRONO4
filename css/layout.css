@@ -36,7 +36,7 @@ body {
     top: 218px;
     left: 50%;
     transform: translateX(-50%);
-    width: 600px;
+    width: 520px;
     height: 2px;
     background: #000000;
     z-index: 20;
@@ -107,7 +107,7 @@ body {
 
     .black-strip {
         top: 200px;
-        width: 560px;
+        width: 490px;
     }
 
     .canvas-container {
@@ -123,7 +123,7 @@ body {
 
     .black-strip {
         top: 184px;
-        width: 520px;
+        width: 460px;
     }
 
     .canvas-container {
@@ -139,7 +139,7 @@ body {
 
     .black-strip {
         top: 175px;
-        width: 500px;
+        width: 440px;
     }
 
     .canvas-container {
@@ -155,7 +155,7 @@ body {
 
     .black-strip {
         top: 164px;
-        width: 480px;
+        width: 420px;
     }
 
     .canvas-container {
@@ -171,7 +171,7 @@ body {
 
     .black-strip {
         top: 143px;
-        width: 420px;
+        width: 380px;
     }
 
     .canvas-container {
@@ -188,7 +188,7 @@ body {
 
     .black-strip {
         top: 108px;
-        width: 300px;
+        width: 270px;
     }
 
     .canvas-container {
@@ -213,7 +213,7 @@ body {
 
     .black-strip {
         top: 81px;
-        width: 240px;
+        width: 200px;
     }
 
     .canvas-container {
