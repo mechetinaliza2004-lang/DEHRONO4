@@ -55,7 +55,7 @@ body {
 .block2 {
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    min-height: 120vh;
     background: #D8D8D8;
     overflow: visible;
 }
@@ -66,7 +66,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: top center;
     z-index: 1;
     pointer-events: none;
 }
@@ -74,7 +75,7 @@ body {
 .draggable-layer {
     position: relative;
     width: 100%;
-    min-height: 100vh;
+    min-height: 120vh;
     z-index: 10;
 }
 
@@ -193,6 +194,14 @@ body {
     .canvas-container {
         top: 130px;
         height: calc(100% - 130px);
+    }
+
+    .block2 {
+        min-height: 100vh;
+    }
+
+    .draggable-layer {
+        min-height: 100vh;
     }
 }
 
