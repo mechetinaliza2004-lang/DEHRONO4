@@ -370,7 +370,6 @@ function initBlock2() {
 function initBlock3() {
     const lensCanvas = document.getElementById('lensCanvas');
     const container = document.querySelector('.block3');
-    const textContainer = document.querySelector('.fibonacci-container');
     const textElement = document.getElementById('fibonacciText');
 
     if (!lensCanvas || !container) return;
@@ -391,7 +390,7 @@ function initBlock3() {
 
     function createTextCanvas() {
         const rect = container.getBoundingClientRect();
-        const textRect = textContainer.getBoundingClientRect();
+        const textRect = textElement.getBoundingClientRect();
 
         textCanvas = document.createElement('canvas');
         textCanvas.width = rect.width;
@@ -409,7 +408,7 @@ function initBlock3() {
         const lines = textElement.innerText.split('\n');
         const startX = textRect.left - rect.left + (textRect.width / 2);
         let yOffset = textRect.top - rect.top;
-        const lineHeight = 42;
+        const lineHeight = 45;
 
         lines.forEach(line => {
             textCtx.fillText(line, startX, yOffset);
@@ -503,9 +502,7 @@ function initBlock3() {
     }
 
     function animateLens() {
-        if (!isDragging) {
-            drawLens();
-        }
+        drawLens();
         requestAnimationFrame(animateLens);
     }
 
@@ -513,10 +510,7 @@ function initBlock3() {
         const rect = container.getBoundingClientRect();
         lensX = e.clientX - rect.left;
         lensY = e.clientY - rect.top;
-
-        if (isDragging) {
-            drawLens();
-        }
+        drawLens();
     }
 
     function onMouseDown(e) {
@@ -548,11 +542,4 @@ function initBlock3() {
         resizeCanvas();
         createTextCanvas();
         lensX = lensCanvas.width / 2;
-        lensY = lensCanvas.height / 2;
-        animateLens();
-    }, 100);
-}
-
-initBlock1();
-initBlock2();
-initBlock3();
+        lensY
