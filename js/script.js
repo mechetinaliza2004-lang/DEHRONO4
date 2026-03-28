@@ -370,16 +370,16 @@ function initBlock2() {
 function initBlock3() {
     const lensCanvas = document.getElementById('lensCanvas');
     const container = document.querySelector('.block3');
+    const textContainer = document.querySelector('.fibonacci-container');
     const textElement = document.getElementById('fibonacciText');
 
     if (!lensCanvas || !container) return;
 
-    let mouseX = 0, mouseY = 0;
-    let lensX = 0, lensY = 0;
     let isDragging = false;
-    let animationId = null;
+    let lensX = 0, lensY = 0;
 
     const ctx = lensCanvas.getContext('2d');
+    let textCanvas = null;
 
     function resizeCanvas() {
         const rect = container.getBoundingClientRect();
@@ -387,56 +387,12 @@ function initBlock3() {
         lensCanvas.height = rect.height;
         lensCanvas.style.width = `${rect.width}px`;
         lensCanvas.style.height = `${rect.height}px`;
-        drawLens();
     }
 
-    function drawLens() {
-        if (!ctx) return;
-        ctx.clearRect(0, 0, lensCanvas.width, lensCanvas.height);
-
-        const radius = 140;
-        const x = lensX;
-        const y = lensY;
-
-        ctx.save();
-        ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
-        ctx.clip();
-
-        ctx.drawImage(textCanvas, 0, 0, lensCanvas.width, lensCanvas.height);
-
-        ctx.restore();
-
-        ctx.beginPath();
-        ctx.arc(x, y, radius, 0, Math.PI * 2);
-        ctx.strokeStyle = '#c0c0c0';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.arc(x, y, radius - 2, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(255,255,255,0.5)';
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-
-        ctx.beginPath();
-        ctx.arc(x, y, radius - 8, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(192,192,192,0.8)';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-
-        const gradient = ctx.createRadialGradient(x - 20, y - 20, 10, x, y, radius);
-        gradient.addColorStop(0, 'rgba(255,255,255,0.3)');
-        gradient.addColorStop(0.5, 'rgba(192,192,192,0.1)');
-        gradient.addColorStop(1, 'rgba(100,100,100,0.05)');
-        ctx.fillStyle = gradient;
-        ctx.fill();
-    }
-
-    let textCanvas = null;
-
-    function updateTextCanvas() {
+    function createTextCanvas() {
         const rect = container.getBoundingClientRect();
+        const textRect = textContainer.getBoundingClientRect();
+
         textCanvas = document.createElement('canvas');
         textCanvas.width = rect.width;
         textCanvas.height = rect.height;
@@ -445,41 +401,131 @@ function initBlock3() {
         textCtx.fillStyle = '#D8D8D8';
         textCtx.fillRect(0, 0, textCanvas.width, textCanvas.height);
 
-        const textRect = textElement.getBoundingClientRect();
-        const containerRect = container.getBoundingClientRect();
-
         textCtx.font = '28px "Durik", monospace';
         textCtx.fillStyle = '#2c2c2c';
-        textCtx.textAlign = 'left';
+        textCtx.textAlign = 'center';
         textCtx.textBaseline = 'top';
 
         const lines = textElement.innerText.split('\n');
-        let yOffset = textRect.top - containerRect.top;
+        const startX = textRect.left - rect.left + (textRect.width / 2);
+        let yOffset = textRect.top - rect.top;
+        const lineHeight = 42;
 
         lines.forEach(line => {
-            textCtx.fillText(line, textRect.left - containerRect.left, yOffset);
-            yOffset += 40;
+            textCtx.fillText(line, startX, yOffset);
+            yOffset += lineHeight;
         });
 
         drawLens();
     }
 
+    function drawLens() {
+        if (!ctx || !textCanvas) return;
+
+        ctx.clearRect(0, 0, lensCanvas.width, lensCanvas.height);
+
+        const radius = 150;
+        const x = lensX;
+        const y = lensY;
+
+        if (x === 0 && y === 0) {
+            lensX = lensCanvas.width / 2;
+            lensY = lensCanvas.height / 2;
+            return;
+        }
+
+        ctx.save();
+
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.clip();
+
+        ctx.drawImage(textCanvas, 0, 0);
+
+        ctx.restore();
+
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = '#c0c0c0';
+        ctx.lineWidth = 4;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(x, y, radius - 3, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(255,255,255,0.6)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(x, y, radius - 8, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(192,192,192,0.8)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        for (let i = 0; i < 12; i++) {
+            const angle = (Date.now() / 800 + i) * 0.6;
+            const r1 = radius - 18;
+            const r2 = radius - 5;
+            const x1 = x + Math.cos(angle) * r1;
+            const y1 = y + Math.sin(angle) * r1;
+            const x2 = x + Math.cos(angle + 0.4) * r2;
+            const y2 = y + Math.sin(angle + 0.4) * r2;
+            ctx.beginPath();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.strokeStyle = 'rgba(255,215,0,0.3)';
+            ctx.lineWidth = 1.2;
+            ctx.stroke();
+        }
+
+        const gradient = ctx.createRadialGradient(x - 25, y - 25, 10, x, y, radius);
+        gradient.addColorStop(0, 'rgba(255,255,255,0.5)');
+        gradient.addColorStop(0.4, 'rgba(220,220,220,0.25)');
+        gradient.addColorStop(0.7, 'rgba(180,180,180,0.12)');
+        gradient.addColorStop(1, 'rgba(120,120,120,0.05)');
+        ctx.fillStyle = gradient;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(x, y, 14, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.7)';
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(x - 4, y - 4, 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.95)';
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(x - 2, y - 2, 1.5, 0, Math.PI * 2);
+        ctx.fillStyle = 'white';
+        ctx.fill();
+    }
+
+    function animateLens() {
+        if (!isDragging) {
+            drawLens();
+        }
+        requestAnimationFrame(animateLens);
+    }
+
     function onMouseMove(e) {
         const rect = container.getBoundingClientRect();
-        mouseX = e.clientX - rect.left;
-        mouseY = e.clientY - rect.top;
+        lensX = e.clientX - rect.left;
+        lensY = e.clientY - rect.top;
 
         if (isDragging) {
-            lensX = mouseX;
-            lensY = mouseY;
-            updateTextCanvas();
+            drawLens();
         }
     }
 
     function onMouseDown(e) {
         isDragging = true;
+        const rect = container.getBoundingClientRect();
+        lensX = e.clientX - rect.left;
+        lensY = e.clientY - rect.top;
         lensCanvas.style.cursor = 'grabbing';
-        onMouseMove(e);
+        drawLens();
     }
 
     function onMouseUp() {
@@ -489,7 +535,7 @@ function initBlock3() {
 
     window.addEventListener('resize', () => {
         resizeCanvas();
-        updateTextCanvas();
+        setTimeout(createTextCanvas, 50);
     });
 
     lensCanvas.addEventListener('mousemove', onMouseMove);
@@ -500,7 +546,10 @@ function initBlock3() {
 
     setTimeout(() => {
         resizeCanvas();
-        updateTextCanvas();
+        createTextCanvas();
+        lensX = lensCanvas.width / 2;
+        lensY = lensCanvas.height / 2;
+        animateLens();
     }, 100);
 }
 
