@@ -228,9 +228,14 @@ let draggedPuzzleItem = null;
 let dragOffsetX = 0, dragOffsetY = 0;
 
 function getRandomPosition(width, height) {
-    const maxX = window.innerWidth - width - 30;
-    const maxY = window.innerHeight - height + 200;
-    return { x: Math.max(20, Math.random() * Math.max(0, maxX)), y: Math.max(20, Math.random() * Math.max(0, maxY) + 100) };
+    const block2 = document.querySelector('.block2');
+    const block2Rect = block2.getBoundingClientRect();
+    const maxX = block2Rect.width - width - 20;
+    const maxY = block2Rect.height - height - 20;
+    return {
+        x: Math.max(10, Math.random() * Math.max(0, maxX)),
+        y: Math.max(10, Math.random() * Math.max(0, maxY))
+    };
 }
 
 function showVictoryMessage() {
@@ -321,6 +326,11 @@ function initBlock2() {
     if (!layer) return;
     layer.innerHTML = '';
     puzzleItems = [];
+
+    layer.style.position = 'relative';
+    layer.style.width = '100%';
+    layer.style.height = '100%';
+
     itemsConfig.forEach(config => {
         const item = createDraggableElement(config);
         layer.appendChild(item.element);
@@ -332,6 +342,7 @@ function initBlock2() {
             if (item.snapped) return;
             draggedPuzzleItem = item;
             const rect = item.element.getBoundingClientRect();
+            const block2Rect = document.querySelector('.block2').getBoundingClientRect();
             dragOffsetX = e.clientX - rect.left;
             dragOffsetY = e.clientY - rect.top;
             item.element.style.cursor = 'grabbing';
@@ -341,10 +352,12 @@ function initBlock2() {
 
     document.addEventListener('mousemove', (e) => {
         if (!draggedPuzzleItem) return;
-        let newX = e.clientX - dragOffsetX;
-        let newY = e.clientY - dragOffsetY;
-        newX = Math.max(0, Math.min(window.innerWidth - draggedPuzzleItem.width, newX));
-        newY = Math.max(0, Math.min(window.innerHeight + 200, newY));
+        const block2 = document.querySelector('.block2');
+        const block2Rect = block2.getBoundingClientRect();
+        let newX = e.clientX - dragOffsetX - block2Rect.left;
+        let newY = e.clientY - dragOffsetY - block2Rect.top;
+        newX = Math.max(0, Math.min(block2Rect.width - draggedPuzzleItem.width, newX));
+        newY = Math.max(0, Math.min(block2Rect.height - draggedPuzzleItem.height, newY));
         draggedPuzzleItem.element.style.left = newX + 'px';
         draggedPuzzleItem.element.style.top = newY + 'px';
     });
