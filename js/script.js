@@ -3,7 +3,6 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 let scene, camera, renderer, controls, group, time = 0;
 let animationId = null;
-let activeBlock = 'block1';
 
 const container = document.getElementById('canvas-container');
 
@@ -153,7 +152,6 @@ function initBlock1() {
     scene.add(group);
 
     function animate() {
-        if (activeBlock !== 'block1') return;
         animationId = requestAnimationFrame(animate);
 
         time += 0.016;
@@ -202,27 +200,12 @@ function initBlock1() {
 
     window.addEventListener('resize', onWindowResize);
     function onWindowResize() {
-        if (!container || activeBlock !== 'block1') return;
+        if (!container) return;
         const width = container.clientWidth;
         const height = container.clientHeight;
         camera.aspect = width / height;
         camera.updateProjectionMatrix();
         renderer.setSize(width, height);
-    }
-}
-
-function destroyBlock1() {
-    if (animationId) {
-        cancelAnimationFrame(animationId);
-        animationId = null;
-    }
-    if (renderer && container && renderer.domElement) {
-        container.removeChild(renderer.domElement);
-    }
-    if (scene) {
-        while (scene.children.length > 0) {
-            scene.remove(scene.children[0]);
-        }
     }
 }
 
@@ -286,6 +269,16 @@ function snapToTarget(item, targetX, targetY) {
     checkAllSnapped();
 }
 
+function rotateAllItems() {
+    puzzleItems.forEach(item => {
+        let currentRotate = item.rotation || 0;
+        currentRotate += 15;
+        if (currentRotate >= 360) currentRotate -= 360;
+        item.rotation = currentRotate;
+        item.element.style.transform = `rotate(${currentRotate}deg)`;
+    });
+}
+
 function createDraggableElement(config) {
     const div = document.createElement('div');
     div.className = 'draggable-item';
@@ -302,7 +295,18 @@ function createDraggableElement(config) {
     div.style.top = startPos.y + 'px';
     div.style.width = `${config.width}px`;
     div.style.height = `${config.height}px`;
-    return { element: div, id: config.id, width: config.width, height: config.height, currentX: startPos.x, currentY: startPos.y, snapped: false, targetX: config.targetX, targetY: config.targetY };
+    return {
+        element: div,
+        id: config.id,
+        width: config.width,
+        height: config.height,
+        currentX: startPos.x,
+        currentY: startPos.y,
+        snapped: false,
+        targetX: config.targetX,
+        targetY: config.targetY,
+        rotation: 0
+    };
 }
 
 function initBlock2() {
@@ -364,43 +368,20 @@ function initBlock2() {
                 item.currentX = newPos.x;
                 item.currentY = newPos.y;
                 item.snapped = false;
+                item.rotation = 0;
+                item.element.style.transform = 'rotate(0deg)';
             });
             snappedCount = 0;
         };
     }
+
+    const rotateBtn = document.getElementById('rotateAllBtn');
+    if (rotateBtn) {
+        rotateBtn.onclick = () => {
+            rotateAllItems();
+        };
+    }
 }
-
-function destroyBlock2() {
-    const layer = document.getElementById('draggableLayer');
-    if (layer) layer.innerHTML = '';
-    puzzleItems = [];
-    draggedPuzzleItem = null;
-}
-
-const block1 = document.getElementById('block1');
-const block2 = document.getElementById('block2');
-const navBtns = document.querySelectorAll('.nav-btn');
-
-navBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        const targetScreen = btn.dataset.screen;
-        navBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        if (targetScreen === 'block1') {
-            block1.classList.add('active');
-            block2.classList.remove('active');
-            activeBlock = 'block1';
-            destroyBlock2();
-            setTimeout(() => initBlock1(), 50);
-        } else if (targetScreen === 'block2') {
-            block2.classList.add('active');
-            block1.classList.remove('active');
-            activeBlock = 'block2';
-            destroyBlock1();
-            setTimeout(() => initBlock2(), 50);
-        }
-    });
-});
 
 initBlock1();
+initBlock2();
