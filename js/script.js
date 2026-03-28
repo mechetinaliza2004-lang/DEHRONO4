@@ -3,7 +3,6 @@ import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 
 let scene, camera, renderer, controls, group, time = 0;
 let animationId = null;
-
 const container = document.getElementById('canvas-container');
 
 function initBlock1() {
@@ -368,5 +367,143 @@ function initBlock2() {
     });
 }
 
+function initBlock3() {
+    const lensCanvas = document.getElementById('lensCanvas');
+    const container = document.querySelector('.block3');
+    const textElement = document.getElementById('fibonacciText');
+
+    if (!lensCanvas || !container) return;
+
+    let mouseX = 0, mouseY = 0;
+    let lensX = 0, lensY = 0;
+    let isDragging = false;
+    let animationId = null;
+
+    const ctx = lensCanvas.getContext('2d');
+
+    function resizeCanvas() {
+        const rect = container.getBoundingClientRect();
+        lensCanvas.width = rect.width;
+        lensCanvas.height = rect.height;
+        lensCanvas.style.width = `${rect.width}px`;
+        lensCanvas.style.height = `${rect.height}px`;
+        drawLens();
+    }
+
+    function drawLens() {
+        if (!ctx) return;
+        ctx.clearRect(0, 0, lensCanvas.width, lensCanvas.height);
+
+        const radius = 140;
+        const x = lensX;
+        const y = lensY;
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.clip();
+
+        ctx.drawImage(textCanvas, 0, 0, lensCanvas.width, lensCanvas.height);
+
+        ctx.restore();
+
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = '#c0c0c0';
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(x, y, radius - 2, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(255,255,255,0.5)';
+        ctx.lineWidth = 1.5;
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(x, y, radius - 8, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(192,192,192,0.8)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        const gradient = ctx.createRadialGradient(x - 20, y - 20, 10, x, y, radius);
+        gradient.addColorStop(0, 'rgba(255,255,255,0.3)');
+        gradient.addColorStop(0.5, 'rgba(192,192,192,0.1)');
+        gradient.addColorStop(1, 'rgba(100,100,100,0.05)');
+        ctx.fillStyle = gradient;
+        ctx.fill();
+    }
+
+    let textCanvas = null;
+
+    function updateTextCanvas() {
+        const rect = container.getBoundingClientRect();
+        textCanvas = document.createElement('canvas');
+        textCanvas.width = rect.width;
+        textCanvas.height = rect.height;
+        const textCtx = textCanvas.getContext('2d');
+
+        textCtx.fillStyle = '#D8D8D8';
+        textCtx.fillRect(0, 0, textCanvas.width, textCanvas.height);
+
+        const textRect = textElement.getBoundingClientRect();
+        const containerRect = container.getBoundingClientRect();
+
+        textCtx.font = '28px "Durik", monospace';
+        textCtx.fillStyle = '#2c2c2c';
+        textCtx.textAlign = 'left';
+        textCtx.textBaseline = 'top';
+
+        const lines = textElement.innerText.split('\n');
+        let yOffset = textRect.top - containerRect.top;
+
+        lines.forEach(line => {
+            textCtx.fillText(line, textRect.left - containerRect.left, yOffset);
+            yOffset += 40;
+        });
+
+        drawLens();
+    }
+
+    function onMouseMove(e) {
+        const rect = container.getBoundingClientRect();
+        mouseX = e.clientX - rect.left;
+        mouseY = e.clientY - rect.top;
+
+        if (isDragging) {
+            lensX = mouseX;
+            lensY = mouseY;
+            updateTextCanvas();
+        }
+    }
+
+    function onMouseDown(e) {
+        isDragging = true;
+        lensCanvas.style.cursor = 'grabbing';
+        onMouseMove(e);
+    }
+
+    function onMouseUp() {
+        isDragging = false;
+        lensCanvas.style.cursor = 'grab';
+    }
+
+    window.addEventListener('resize', () => {
+        resizeCanvas();
+        updateTextCanvas();
+    });
+
+    lensCanvas.addEventListener('mousemove', onMouseMove);
+    lensCanvas.addEventListener('mousedown', onMouseDown);
+    window.addEventListener('mouseup', onMouseUp);
+
+    lensCanvas.style.cursor = 'grab';
+
+    setTimeout(() => {
+        resizeCanvas();
+        updateTextCanvas();
+    }, 100);
+}
+
 initBlock1();
 initBlock2();
+initBlock3();
